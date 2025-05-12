@@ -27,17 +27,12 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies (Clean)
-        run: npm install --force
-
-      - name: List binaries
-        run: ls -la node_modules/.bin
-
-      - name: Show Vite binary location
-        run: which vite || echo "vite not found"
-
+      - name: Clean Install with Full Binary Access
+        run: |
+          npm ci
+          chmod +x ./node_modules/.bin/vite
       - name: Build Vite Project
-        run: npx vite build
+        run: npm run build
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
