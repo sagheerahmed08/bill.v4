@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,13 +27,15 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Clean Install with Full Binary Access
+        run: |
+          npm ci
+          chmod +x ./node_modules/.bin/vite
 
       - name: Build Vite Project
         run: npm run build
 
-      - name: Upload Artifact
+      - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
